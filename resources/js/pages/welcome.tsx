@@ -264,7 +264,7 @@ export default function Welcome() {
                                         strokeLinejoin="bevel"
                                     />
                                     <path
-                                        d="M9.32197 225.972L-13.5365 225.971L-42.5255 175.765L43.2765 175.768L175.798 405.282L112.854 405.279L9.32197 225.972Z"
+                                    d="M9.32197 225.972L-13.5365 225.971L-42.5255 175.765L43.2765 175.768L175.798 405.282L112.854 405.279L9.32197 225.972Z"
                                         stroke="#1B1B18"
                                         strokeWidth={1}
                                         strokeLinejoin="bevel"

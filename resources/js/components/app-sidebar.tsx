@@ -13,8 +13,9 @@ import {
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { BookOpen, Folder, GrapeIcon, LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
+import products from '@/routes/products';
 
 const mainNavItems: NavItem[] = [
     {
@@ -22,6 +23,11 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
+    {
+        title: 'Products',
+        href: products.index(),
+        icon: GrapeIcon,
+    }
 ];
 
 const footerNavItems: NavItem[] = [
