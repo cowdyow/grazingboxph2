@@ -14,6 +14,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::resource('products', ProductController::class);
+
+
+
+    require __DIR__ . '/api.php';
 });
 
 require __DIR__ . '/settings.php';
