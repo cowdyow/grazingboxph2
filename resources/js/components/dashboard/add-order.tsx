@@ -61,7 +61,6 @@ export default function AddOrder() {
     const [filtered, setFiltered] = useState<Customer[]>([]);
     const [isOpen, setIsOpen] = useState(false);
 
-    // Load products and customers
     useEffect(() => {
         axios.get("/api/products").then((res) => setProducts(res.data));
         axios.get("/api/customers").then((res) => setCustomers(res.data));
@@ -89,6 +88,7 @@ export default function AddOrder() {
             name: customer.name,
             address: customer.address,
             phone: customer.phone,
+            source: customer.source
         });
         }
     };;
@@ -193,6 +193,15 @@ export default function AddOrder() {
                     placeholder="Enter phone"
                 />
                 {errors.phone && <p className="text-red-500">{errors.phone}</p>}
+                </div>
+                <div>
+                <Label>Source</Label>
+                <Input
+                    value={data.source}
+                    onChange={(e) => setData("source", e.target.value)}
+                    placeholder="Select Source"
+                />
+                {errors.source && <p className="text-red-500">{errors.source}</p>}
                 </div>
             </div>
 
