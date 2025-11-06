@@ -3,42 +3,56 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\CustomerService;
+use App\Http\Services\TransactionService;
 use App\Models\Customer;
 use App\Models\OrderItem;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NewTransactionController extends Controller
 {
     protected $customerService;
     protected $transactionService;
 
-    public function __construct(CustomerService $customerService)
+    public function __construct(CustomerService $customerService, TransactionService $transactionService)
     {
         $this->customerService = $customerService;
+        $this->transactionService = $transactionService;
     }
 
 
     public function __invoke(Request $request)
     {
-        $customerId = $this->customerService->getOrCreate($request);
+        try {
+            DB::beginTransaction();
 
-        $transaction = Transaction::create([
-            'customer_id' => $customerId,
-            'order_number' => rand(1, 5),
-            'status' => 'Pending',
-        ]);
+            $customer = $this->customerService->getOrCreate($request);
 
-        foreach ($request->items as $item) {
-            OrderItem::create([
-                'transaction_id' => $transaction->id,
-                'product_id' => $item->product_id,
-                'quantity' => $item->quantity,
-                'delivery_date' => $item->delivery_date,
-                'delivery_address' => $item->delivery_address,
-                'memo' => $item->memo,
-                'status' => 'Pending'
+            $transaction = Transaction::create([
+                'customer_id' => $customer->id,
+                'order_number' => $this->transactionService->generateOrderNumber(),
+                'status' => 'Pending',
             ]);
+
+            foreach ($request->items as $item) {
+                OrderItem::create([
+                    'transaction_id' => $transaction->id,
+                    'product_id' => $item['product_id'],
+                    'quantity' => $item['quantity'],
+                    'delivery_date' => $item['delivery_date'],
+                    'delivery_address' => $item['delivery_address'],
+                    'memo' => $item['memo'] ?? null,
+                    'status' => 'Pending',
+                ]);
+            }
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Order has been added');
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Failed to create order: ' . $e->getMessage());
         }
     }
 }

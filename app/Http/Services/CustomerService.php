@@ -23,6 +23,6 @@ class CustomerService
             ]);
         }
 
-        return $customer->id;
+        return $customer;
     }
 }

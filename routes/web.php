@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\NewTransactionController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -15,6 +16,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::resource('products', ProductController::class);
+
+    Route::resource('transactions', TransactionController::class);
 
     Route::post('/new-transaction', NewTransactionController::class)
         ->name('orders.store');
