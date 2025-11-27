@@ -5,6 +5,12 @@ import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import { TransactionTypes } from '@/types/transactions';
+import { OrderItemTypes } from '@/types/order_items';
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     /* {
@@ -13,7 +19,18 @@ const breadcrumbs: BreadcrumbItem[] = [
     }, */
 ];
 
-export default function Dashboard() {
+type Props = {
+    transactions: TransactionTypes[];
+    orderItems: OrderItemTypes[];
+};
+
+    
+
+export default function Dashboard({ transactions, orderItems }: Props) {
+    const events = orderItems.map(item => ({
+        title: item.product_id,
+        date: item.delivery_date,
+    }));
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
@@ -37,6 +54,13 @@ export default function Dashboard() {
                     <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
                 </div>
             </div>
+
+            <FullCalendar
+            plugins={[dayGridPlugin, timeGridPlugin]}
+            initialView="dayGridMonth"
+            events={events}
+            height="auto"
+        />
             
         </AppLayout>
     );

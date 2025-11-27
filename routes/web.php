@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NewTransactionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
@@ -11,9 +12,8 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', DashboardController::class)
+        ->name('dashboard');
 
     Route::resource('products', ProductController::class);
 
