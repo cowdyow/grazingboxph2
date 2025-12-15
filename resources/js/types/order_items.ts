@@ -1,3 +1,5 @@
+import { TransactionTypes } from "./transactions";
+
 export type OrderItemTypes = {
     id: number;
     transaction_id: number;
@@ -7,6 +9,8 @@ export type OrderItemTypes = {
     delivery_address: string;
     memo: string;
     status: string;
-    total_amount: number;
     created_at: string;
-};
+
+    product_name: string;
+    transaction: TransactionTypes;
+};  

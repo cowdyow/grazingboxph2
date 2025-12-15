@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NewTransactionController;
+use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
@@ -19,8 +20,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('transactions', TransactionController::class);
 
+    Route::resource('transactions/orders', OrderItemController::class)->shallow();
+
+
     Route::post('/new-transaction', NewTransactionController::class)
-        ->name('orders.store');
+        ->name('transaction.orders.store');
 
 
 

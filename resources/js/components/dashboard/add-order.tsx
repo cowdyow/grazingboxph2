@@ -114,7 +114,7 @@ export default function AddOrder() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-            post(route("orders.store"), {
+            post(route("transaction.orders.store"), {
             onSuccess: () => {
                 setIsOpen(false);
                 reset();
@@ -253,13 +253,14 @@ export default function AddOrder() {
                         <div>
                             <Label>Delivery Date</Label>
                             <Input
-                            type="date"
-                            value={item.delivery_date}
-                            onChange={(e) =>
-                                updateItem(index, "delivery_date", e.target.value)
-                            }
+                                type="datetime-local"
+                                value={item.delivery_date}
+                                onChange={(e) =>
+                                    updateItem(index, "delivery_date", e.target.value)
+                                }
                             />
                         </div>
+
 
                         <div className="col-span-2 md:col-span-3">
                             <Label>Delivery Address</Label>

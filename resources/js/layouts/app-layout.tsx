@@ -1,4 +1,4 @@
-import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
+import AppLayoutTemplate from '@/layouts/app/app-header-layout';
 import { usePage } from '@inertiajs/react';
 import { useEffect, type ReactNode } from 'react';
 import { toast, Toaster } from 'sonner';
@@ -36,7 +36,7 @@ export default function AppLayout({ children, breadcrumbs, ...props }: AppLayout
     return (
         <>
             <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
-                <div className="p-4">{children}</div>
+                <div className="">{children}</div>
             </AppLayoutTemplate>
 
             

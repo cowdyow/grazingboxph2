@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OrderItemResource;
 use App\Models\OrderItem;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -13,12 +14,12 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $transactions = Transaction::get();
-        $orderItems = OrderItem::get();
+
+        $orderItems = OrderItem::with(['product', 'transaction'])->get();
 
         return inertia('dashboard', [
-            'transactions' => $transactions,
-            'orderItems' => $orderItems,
+
+            'orderItems' => OrderItemResource::collection($orderItems),
         ]);
     }
 }
