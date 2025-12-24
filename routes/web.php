@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LalamoveRiderController;
 use App\Http\Controllers\NewTransactionController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\ProductController;
@@ -17,6 +18,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('dashboard');
 
     Route::resource('products', ProductController::class);
+
+    Route::resource('lalamove', LalamoveRiderController::class);
 
     Route::resource('transactions', TransactionController::class);
 

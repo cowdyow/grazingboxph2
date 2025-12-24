@@ -32,10 +32,11 @@ import { cn } from '@/lib/utils';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, GrapeIcon, LayoutGrid, Menu, Search } from 'lucide-react';
+import { BikeIcon, BookOpen, Folder, GrapeIcon, LayoutGrid, Menu, Search } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 import products from '@/routes/products';
+import lalamove from '@/routes/lalamove';
 
 const mainNavItems: NavItem[] = [
     {
@@ -47,6 +48,11 @@ const mainNavItems: NavItem[] = [
         title: 'Products',
         href: products.index(),
         icon: GrapeIcon,
+    },
+    {
+        title: 'Lalamove',
+        href: lalamove.index(),
+        icon: BikeIcon,
     }
 ];
 
