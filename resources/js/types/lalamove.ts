@@ -7,4 +7,7 @@ export type LalamoveType = {
     status: string;
     memo: string;
     picked_up_at: string;
+    delivery_date: string;
+    booking_type: string;
+    delivery_time: string;
 };

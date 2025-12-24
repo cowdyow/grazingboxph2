@@ -52,6 +52,25 @@ const statusMap: Record<
     },
 };
 
+const bookingTypeMap: Record<
+    string,
+    { label: string; className: string }
+> = {
+    pickup: {
+        label: "Pick Up",
+        className: "bg-yellow-100 text-yellow-800",
+    },
+    customer_booked: {
+        label: "Customer Will Book",
+        className: "bg-blue-100 text-blue-800",
+    },
+    staff_booked: {
+        label: "I Will Book",
+        className: "bg-green-100 text-green-800",
+    },
+};
+
+
 const LalamovePage: React.FC<Props> = ({ riders, filters }) => {
     const [search, setSearch] = useState(filters.search || "");
 
@@ -111,6 +130,8 @@ const LalamovePage: React.FC<Props> = ({ riders, filters }) => {
                                 <TableHead>Rider Name</TableHead>
                                 <TableHead>Rider Contact No</TableHead>
                                 <TableHead>Lalamove Link</TableHead>
+                                <TableHead>Booking Type</TableHead>
+                                <TableHead>Delivery Time</TableHead>
                                 <TableHead>Status</TableHead>
                                 <TableHead>Picked Up Date</TableHead>
                                 <TableHead />
@@ -134,6 +155,21 @@ const LalamovePage: React.FC<Props> = ({ riders, filters }) => {
                                             </a>
                                         )}
                                     </TableCell>
+                                    <TableCell>
+                                        {(() => {
+                                            const booking = bookingTypeMap[item.booking_type];
+
+                                            return booking ? (
+                                                <Badge className={booking.className}>
+                                                    {booking.label}
+                                                </Badge>
+                                            ) : (
+                                                <Badge variant="secondary">N/A</Badge>
+                                            );
+                                        })()}
+                                    </TableCell>
+
+                                    <TableCell>{item.delivery_time}</TableCell>
                                     <TableCell>
                                         {(() => {
                                             const status = statusMap[item.status];

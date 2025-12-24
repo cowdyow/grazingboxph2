@@ -35,6 +35,8 @@ export default function EditLalamoveRider({ rider }: Props) {
         contact_no: rider.contact_no,
         status: rider.status,
         memo: rider.memo,
+        booking_type: rider.booking_type,
+        delivery_time: rider.delivery_time,
     });
 
     const [isOpen, setIsOpen] = useState(false);
@@ -100,6 +102,56 @@ export default function EditLalamoveRider({ rider }: Props) {
                             }
                         />
                     </div>
+                    {/* Booking Type */}
+                    <div>
+                        <Label>Booking Type</Label>
+                        <Select
+                            value={data.booking_type}
+                            onValueChange={(value) =>
+                                setData("booking_type", value)
+                            }
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select booking type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="pickup">
+                                    Pick Up
+                                </SelectItem>
+                                <SelectItem value="customer_booked">
+                                    Customer Will Book
+                                </SelectItem>
+                                <SelectItem value="staff_booked">
+                                    We Will Book
+                                </SelectItem>
+                            </SelectContent>
+                        </Select>
+
+                        {errors.booking_type && (
+                            <p className="text-sm text-red-500">
+                                {errors.booking_type}
+                            </p>
+                        )}
+                    </div>
+
+                    {/* Delivery Time */}
+                        <div>
+                            <Label>Delivery Time</Label>
+                            <Input
+                                placeholder="e.g. 2PM, Anytime"
+                                value={data.delivery_time}
+                                onChange={(e) =>
+                                    setData("delivery_time", e.target.value)
+                                }
+                            />
+
+                            {errors.delivery_time && (
+                                <p className="text-sm text-red-500">
+                                    {errors.delivery_time}
+                                </p>
+                            )}
+                        </div>
+
 
                     {/* Status */}
                     <div>

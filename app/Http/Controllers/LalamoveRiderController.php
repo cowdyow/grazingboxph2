@@ -41,18 +41,21 @@ class LalamoveRiderController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'customer_name' => 'nullable|string',
-            'rider_name' => 'nullable|string',
-            'contact_no' => 'nullable|string',
-            'status' => 'required|in:preparing,ready,picked_up',
-            'memo' => 'nullable|string',
+            'customer_name'  => 'nullable|string|max:255',
+            'rider_name'     => 'nullable|string|max:255',
+            'contact_no'     => 'nullable|string|max:50',
+            'status'         => 'required|in:preparing,ready,picked_up',
+            'booking_type'   => 'nullable|in:pickup,customer_booked,staff_booked',
+            'delivery_time'  => 'nullable|string|max:50',
+            'memo'           => 'nullable|string|max:255',
         ]);
 
         LalamoveRider::create($validated);
 
         return redirect()->route('lalamove.index')
-            ->with('success', 'Lalamove Rider has been added');
+                        ->with('success', 'Lalamove Rider has been added successfully.');
     }
+
 
     /**
      * Display the specified resource.
@@ -81,6 +84,8 @@ class LalamoveRiderController extends Controller
             'contact_no' => $request->contact_no,
             'status' => $request->status,
             'memo' => $request->memo,
+            'booking_type' => $request->booking_type,
+            'delivery_time' => $request->delivery_time,
         ]);
 
         if ($request->status == 'picked_up') {
