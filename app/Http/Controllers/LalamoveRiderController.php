@@ -17,7 +17,7 @@ class LalamoveRiderController extends Controller
                 $query->where('customer_name', 'like', "%{$search}%")
                     ->orWhere('rider_name', 'like', "%{$search}%");
             })
-            ->latest()
+            ->orderBy('created_at', 'asc')
             ->get();
 
         return inertia('lalamove/index', [
