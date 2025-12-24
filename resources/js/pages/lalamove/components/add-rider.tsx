@@ -28,7 +28,7 @@ export default function AddLalamoveRider({  }) {
         customer_name: "",
         rider_name: "",
         contact_no: "",
-        status: "preparing",
+        status: "not_yet_started",
         booking_type: "",
         delivery_time: "",
         memo: "",
@@ -173,28 +173,32 @@ export default function AddLalamoveRider({  }) {
                     
 </div>
                     {/* Status */}
-                    <div>
-                        <Label>Status</Label>
-                        <Select
-                            value={data.status}
-                            onValueChange={(value) =>
-                                setData("status", value)
-                            }
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select status" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="preparing">
-                                    Preparing
-                                </SelectItem>
-                                <SelectItem value="ready">Ready</SelectItem>
-                                <SelectItem value="picked_up">
-                                    Picked Up
-                                </SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
+                   <div>
+    <Label>Status</Label>
+    <Select
+        value={data.status}
+        onValueChange={(value) =>
+            setData("status", value)
+        }
+    >
+        <SelectTrigger>
+            <SelectValue placeholder="Select status" />
+        </SelectTrigger>
+        <SelectContent>
+            <SelectItem value="not_yet_started">
+                Not Yet Started
+            </SelectItem>
+            <SelectItem value="preparing">
+                Preparing
+            </SelectItem>
+            <SelectItem value="ready">Ready</SelectItem>
+            <SelectItem value="picked_up">
+                Picked Up
+            </SelectItem>
+        </SelectContent>
+    </Select>
+</div>
+
 
                     {/* Memo */}
                     <div>

@@ -44,7 +44,7 @@ class LalamoveRiderController extends Controller
             'customer_name'  => 'nullable|string|max:255',
             'rider_name'     => 'nullable|string|max:255',
             'contact_no'     => 'nullable|string|max:50',
-            'status'         => 'required|in:preparing,ready,picked_up',
+            'status'         => 'required|in:not_yet_started,preparing,ready,picked_up',
             'booking_type'   => 'nullable|in:pickup,customer_booked,staff_booked',
             'delivery_time'  => 'nullable|string|max:50',
             'memo'           => 'nullable|string|max:255',

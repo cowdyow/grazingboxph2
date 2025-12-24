@@ -38,6 +38,10 @@ const statusMap: Record<
     string,
     { label: string; className: string }
 > = {
+    not_yet_started: {
+        label: "Not Yet Started",
+        className: "bg-gray-100 text-gray-800",
+    },
     preparing: {
         label: "Preparing",
         className: "bg-yellow-100 text-yellow-800",
