@@ -48,12 +48,14 @@ class LalamoveRiderController extends Controller
             'booking_type'   => 'nullable|in:pickup,customer_booked,staff_booked',
             'delivery_time'  => 'nullable|string|max:50',
             'memo'           => 'nullable|string|max:255',
+            'product'           => 'nullable|string|max:255',
+            'quantity'           => 'nullable',
         ]);
 
         LalamoveRider::create($validated);
 
         return redirect()->route('lalamove.index')
-                        ->with('success', 'Lalamove Rider has been added successfully.');
+            ->with('success', 'Lalamove Rider has been added successfully.');
     }
 
 
@@ -86,6 +88,8 @@ class LalamoveRiderController extends Controller
             'memo' => $request->memo,
             'booking_type' => $request->booking_type,
             'delivery_time' => $request->delivery_time,
+            'product' => $request->product,
+            'quantity' => $request->quantity,
         ]);
 
         if ($request->status == 'picked_up') {

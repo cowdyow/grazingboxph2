@@ -10,4 +10,6 @@ export type LalamoveType = {
     delivery_date: string;
     booking_type: string;
     delivery_time: string;
+    product: string;
+    quantity: string;
 };

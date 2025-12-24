@@ -37,6 +37,8 @@ export default function EditLalamoveRider({ rider }: Props) {
         memo: rider.memo,
         booking_type: rider.booking_type,
         delivery_time: rider.delivery_time,
+        product: rider.product,
+        quantity: rider.quantity,
     });
 
     const [isOpen, setIsOpen] = useState(false);
@@ -151,6 +153,30 @@ export default function EditLalamoveRider({ rider }: Props) {
                                 </p>
                             )}
                         </div>
+
+                  <div className="flex justify-between gap-2">
+
+                    <div>
+                        <Label>Quantity</Label>
+                        <Input
+                            value={data.quantity}
+                            onChange={(e) =>
+                                setData("quantity", e.target.value)
+                            }
+                        />
+                    </div>
+                    <div>
+                        <Label>Product</Label>
+                        <Input
+                            value={data.product}
+                            onChange={(e) =>
+                                setData("product", e.target.value)
+                            }
+                        />
+                    </div>
+
+                    
+</div>
 
 
                     {/* Status */}

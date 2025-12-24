@@ -127,6 +127,7 @@ const LalamovePage: React.FC<Props> = ({ riders, filters }) => {
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Customer Name</TableHead>
+                                <TableHead>Order</TableHead>
                                 <TableHead>Rider Name</TableHead>
                                 <TableHead>Rider Contact No</TableHead>
                                 <TableHead>Lalamove Link</TableHead>
@@ -142,6 +143,7 @@ const LalamovePage: React.FC<Props> = ({ riders, filters }) => {
                             {riders.map((item, index) => (
                                 <TableRow key={index}>
                                     <TableCell>{item.customer_name}</TableCell>
+                                    <TableCell>{item.quantity} - {item.product}</TableCell>
                                     <TableCell>{item.rider_name}</TableCell>
                                     <TableCell>{item.contact_no}</TableCell>
                                     <TableCell>

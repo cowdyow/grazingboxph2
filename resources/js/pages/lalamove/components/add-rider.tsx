@@ -32,6 +32,8 @@ export default function AddLalamoveRider({  }) {
         booking_type: "",
         delivery_time: "",
         memo: "",
+        product: "",
+        quantity: "",
     });
 
     const [isOpen, setIsOpen] = useState(false);
@@ -147,9 +149,29 @@ export default function AddLalamoveRider({  }) {
                                 </p>
                             )}
                         </div>
+                    <div className="flex justify-between gap-2">
 
+                    <div>
+                        <Label>Quantity</Label>
+                        <Input
+                            value={data.quantity}
+                            onChange={(e) =>
+                                setData("quantity", e.target.value)
+                            }
+                        />
+                    </div>
+                    <div>
+                        <Label>Product</Label>
+                        <Input
+                            value={data.product}
+                            onChange={(e) =>
+                                setData("product", e.target.value)
+                            }
+                        />
+                    </div>
 
-
+                    
+</div>
                     {/* Status */}
                     <div>
                         <Label>Status</Label>
