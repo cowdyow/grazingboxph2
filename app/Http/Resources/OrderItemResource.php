@@ -21,6 +21,7 @@ class OrderItemResource extends JsonResource
             'product_id' => $this->product_id,
             'quantity' => $this->quantity,
             'delivery_date' => $this->delivery_date,
+            'delivery_date_display' => Carbon::parse($this->delivery_date)->format('M d, Y g:i A'),
             'delivery_address' => $this->delivery_address,
             'memo' => $this->memo,
             'booking_type' => $this->booking_type,

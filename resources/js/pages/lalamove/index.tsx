@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { route } from "ziggy-js";
 import { OrderItemTypes } from "@/types/order_items";
 import transactions from "@/routes/transactions";
+import CustomerDetail from "./components/customer-detail";
 
 type Props = {
 
@@ -89,16 +90,26 @@ const { props } = usePage();
 const [search, setSearch] = useState("");
 const [selectedDate, setSelectedDate] = useState<string>(date);
 
-    const handleSearch = () => {
+const handleSearch = () => {
     router.get(route("lalamove.index"), { search, date: selectedDate }, {
         preserveState: true,
         replace: true,
     });
 };
-    const handleReset = () => {
+const handleReset = () => {
     setSearch("");
-    setSelectedDate(new Date().toISOString().split('T')[0]); 
-    router.get(route("lalamove.index"), {}, { preserveState: true });
+
+
+    const params = new URLSearchParams(window.location.search);
+    const currentDate = params.get("date") || new Date().toISOString().split("T")[0];
+
+    setSelectedDate(currentDate);
+
+    router.get(
+        route("lalamove.index"),
+        { date: currentDate, search: "" },
+        { preserveState: true }
+    );
 };
 
 
@@ -141,13 +152,15 @@ const [selectedDate, setSelectedDate] = useState<string>(date);
 
                 <Card>
                     <div className="flex justify-between items-center pb-4">
-                        <CardTitle className="px-6">
-                           Orders for {new Date(selectedDate).toLocaleDateString('en-US', {
-                                weekday: 'long',
-                                month: 'long',
-                                day: 'numeric',
-                                year: 'numeric',
-                                })}
+                        <CardTitle className="px-6 ">
+                            <div className="inline-flex gap-2 text-lg font-bold">
+                                Orders for <p className="underline">{new Date(selectedDate).toLocaleDateString('en-US', {
+                                    weekday: 'long',
+                                    month: 'long',
+                                    day: 'numeric',
+                                    year: 'numeric',
+                                })}</p>
+                            </div>
                         </CardTitle>
                         <div className="flex gap-2 items-center mr-4">
                             <Input
@@ -168,11 +181,10 @@ const [selectedDate, setSelectedDate] = useState<string>(date);
                                     <TableHead>Customer</TableHead>
                                     <TableHead>Order</TableHead>
                                     <TableHead>Booking Type</TableHead>
-                                    <TableHead>Delivery Time</TableHead>
+                                    <TableHead>Delivery Time & Address</TableHead>
                                     <TableHead>Status</TableHead>
                                     <TableHead>Notes</TableHead>
-                                    <TableHead>Rider Name</TableHead>
-                                    <TableHead>Rider Contact No</TableHead>
+                                    <TableHead>Lalamove</TableHead>
                                     <TableHead>Lalamove Link</TableHead>
                                     
                                     <TableHead />
@@ -185,7 +197,7 @@ const [selectedDate, setSelectedDate] = useState<string>(date);
                                         <TableCell>
                                             <Link href={transactions.show(item.transaction_id).url}>
                                             <div className="text-blue-500">{item.transaction.order_number}</div></Link></TableCell>
-                                        <TableCell>{item.transaction.customer.username}</TableCell>
+                                        <TableCell><CustomerDetail customer={item.transaction.customer}/></TableCell>
                                         <TableCell>{item.quantity} - {item.product_name}</TableCell>
                                         
                                         <TableCell>
@@ -202,7 +214,13 @@ const [selectedDate, setSelectedDate] = useState<string>(date);
                                             })()}
                                         </TableCell>
 
-                                        <TableCell>{item.delivery_time}</TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-col">
+                                            <div>{item.delivery_time}</div>
+                                            <div className="text-xs text-gray-400">{item.delivery_address}</div>
+                                            </div>
+
+                                        </TableCell>
                                         <TableCell>
                                             <select
                                                 value={item.status}
@@ -230,9 +248,17 @@ const [selectedDate, setSelectedDate] = useState<string>(date);
                                         </TableCell>
 
 
-                                        <TableCell>{item.memo}</TableCell>
-                                        <TableCell>{item.lalamove && (item.lalamove.rider_name)}</TableCell>
-                                        <TableCell>{item.lalamove && (item.lalamove.contact_no)}</TableCell>
+                                        <TableCell className="max-w-[300px] whitespace-normal break-words">
+                                            {item.memo}
+                                        </TableCell>
+
+                                        <TableCell>
+                                            <div className="flex flex-col">
+                                            <div>{item.lalamove && (item.lalamove.contact_no)}</div>
+                                            <div className="text-xs text-gray-400">{item.lalamove && (item.lalamove.rider_name)}</div>
+                                            </div>
+                                            </TableCell>
+                                        
                                         <TableCell>
                                             {item.lalamove && (item.lalamove.memo && (
                                                 <a

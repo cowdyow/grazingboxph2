@@ -20,7 +20,7 @@ class DashboardController extends Controller
         $currentYear = Carbon::now()->year;
 
         // Get all order items with their transaction and product
-        $orderItems = OrderItem::with(['product', 'transaction'])
+        $orderItems = OrderItem::with(['product', 'transaction.customer'])
             ->whereHas('transaction', function ($query) use ($currentMonth, $currentYear) {
                 $query->whereYear('created_at', $currentYear)
                     ->whereMonth('created_at', $currentMonth);

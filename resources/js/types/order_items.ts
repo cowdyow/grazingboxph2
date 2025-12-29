@@ -7,6 +7,7 @@ export type OrderItemTypes = {
     product_id: number;
     quantity: number;
     delivery_date: string;
+    delivery_date_display: string;
     delivery_time: string;
     delivery_address: string;
     booking_type: string;
