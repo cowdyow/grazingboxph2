@@ -140,7 +140,7 @@ export default function AddOrder() {
             {/* CUSTOMER DETAILS */}
             <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                    <Label>Customer Username</Label>
+                    <Label required>Customer Username</Label>
                     <Combobox type="single" onValueChange={handleSelect}>
                         <ComboboxInput
                         placeholder="Search username..."
@@ -165,7 +165,7 @@ export default function AddOrder() {
                 </div>
 
                 <div>
-                    <Label>Name</Label>
+                    <Label required>Name</Label>
                     <Input
                         value={data.name}
                         onChange={(e) => setData("name", e.target.value)}
@@ -194,14 +194,29 @@ export default function AddOrder() {
                     {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
                 </div>
                 <div>
-                    <Label>Source</Label>
-                    <Input
+                    <Label required>Source</Label>
+
+                    <Select
                         value={data.source}
-                        onChange={(e) => setData("source", e.target.value)}
-                        placeholder="Select Source"
-                    />
-                    {errors.source && <p className="text-red-500 text-sm">{errors.source}</p>}
-                </div>
+                        onValueChange={(value) => setData("source", value)}
+                    >
+                        <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select Source" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                        <SelectItem value="Facebook">Facebook</SelectItem>
+                        <SelectItem value="Instagram">Instagram</SelectItem>
+                        <SelectItem value="Tiktok">Tiktok</SelectItem>
+                        <SelectItem value="Walk-in">Walk-in</SelectItem>
+                        <SelectItem value="Other">Other</SelectItem>
+                        </SelectContent>
+                    </Select>
+
+                    {errors.source && (
+                        <p className="text-red-500 text-sm mt-1">{errors.source}</p>
+                    )}
+                    </div>
             </div>
 
             <div className="mt-6">
@@ -218,7 +233,7 @@ export default function AddOrder() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {/* Product */}
                             <div>
-                                <Label>Product</Label>
+                                <Label required>Product</Label>
                                 <Select
                                 value={item.product_id?.toString() ?? ""}
                                 onValueChange={(val) => updateItem(index, "product_id", Number(val))}
@@ -241,7 +256,7 @@ export default function AddOrder() {
 
                             {/* Quantity */}
                             <div>
-                                <Label>Quantity</Label>
+                                <Label required>Quantity</Label>
                                 <Input
                                 type="number"
                                 min={1}
@@ -257,7 +272,7 @@ export default function AddOrder() {
                         {/* Delivery Date */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="mt-4">
-                            <Label>Delivery Date</Label>
+                            <Label required>Delivery Date</Label>
                             <Input
                                 type="datetime-local"
                                 step={3600}
@@ -309,7 +324,7 @@ export default function AddOrder() {
                         </div>
                         {/* Booking Type */}
                         <div className="mt-4">
-                        <Label>Booking Type</Label>
+                        <Label required>Booking Type</Label>
                         <Select
                             value={item.booking_type ?? ""}
                             onValueChange={(value) => updateItem(index, "booking_type", value)}
