@@ -18,27 +18,22 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { useForm } from "@inertiajs/react";
-import { EditIcon, PlusIcon } from "lucide-react";
+import { BikeIcon, EditIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
 import lalamove from "@/routes/lalamove";
 import { LalamoveType } from "@/types/lalamove";
 import { route } from "ziggy-js";
+import { OrderItemTypes } from "@/types/order_items";
 
 type Props = {
-    rider: LalamoveType;
+    order: OrderItemTypes;
 };
-export default function EditLalamoveRider({ rider }: Props) {
+export default function EditLalamoveRider({ order }: Props) {
     const { data, setData, put, processing, errors } = useForm({
-        order_item_id: rider.order_item_id,
-        customer_name: rider.customer_name,
-        rider_name: rider.rider_name,
-        contact_no: rider.contact_no,
-        status: rider.status,
-        memo: rider.memo,
-        booking_type: rider.booking_type,
-        delivery_time: rider.delivery_time,
-        product: rider.product,
-        quantity: rider.quantity,
+        order_item_id: order.id,
+        rider_name: order.lalamove?.rider_name ?? "",
+        contact_no: order.lalamove?.contact_no ?? "",
+        memo: order.lalamove?.memo ?? "",
     });
 
     const [isOpen, setIsOpen] = useState(false);
@@ -46,7 +41,7 @@ export default function EditLalamoveRider({ rider }: Props) {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        put(route('lalamove.update', rider.id), {
+        put(route('lalamove.update', order.id), {
             onSuccess: () => setIsOpen(false),
         });
 
@@ -57,7 +52,7 @@ export default function EditLalamoveRider({ rider }: Props) {
         <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
             <AlertDialogTrigger asChild>
                 <Button size={'icon'}>
-                    <EditIcon />
+                    <BikeIcon />
                 </Button>
             </AlertDialogTrigger>
 
@@ -67,21 +62,6 @@ export default function EditLalamoveRider({ rider }: Props) {
                 </AlertDialogHeader>
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    {/* Customer Name */}
-                    <div>
-                        <Label>Customer Name</Label>
-                        <Input
-                            value={data.customer_name}
-                            onChange={(e) =>
-                                setData("customer_name", e.target.value)
-                            }
-                        />
-                        {errors.customer_name && (
-                            <p className="text-sm text-red-500">
-                                {errors.customer_name}
-                            </p>
-                        )}
-                    </div>
 
                     {/* Rider Name */}
                     <div>
@@ -104,105 +84,7 @@ export default function EditLalamoveRider({ rider }: Props) {
                             }
                         />
                     </div>
-                    {/* Booking Type */}
-                    <div>
-                        <Label>Booking Type</Label>
-                        <Select
-                            value={data.booking_type}
-                            onValueChange={(value) =>
-                                setData("booking_type", value)
-                            }
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select booking type" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="pickup">
-                                    Pick Up
-                                </SelectItem>
-                                <SelectItem value="customer_booked">
-                                    Customer Will Book
-                                </SelectItem>
-                                <SelectItem value="staff_booked">
-                                    We Will Book
-                                </SelectItem>
-                            </SelectContent>
-                        </Select>
-
-                        {errors.booking_type && (
-                            <p className="text-sm text-red-500">
-                                {errors.booking_type}
-                            </p>
-                        )}
-                    </div>
-
-                    {/* Delivery Time */}
-                        <div>
-                            <Label>Delivery Time</Label>
-                            <Input
-                                placeholder="e.g. 2PM, Anytime"
-                                value={data.delivery_time}
-                                onChange={(e) =>
-                                    setData("delivery_time", e.target.value)
-                                }
-                            />
-
-                            {errors.delivery_time && (
-                                <p className="text-sm text-red-500">
-                                    {errors.delivery_time}
-                                </p>
-                            )}
-                        </div>
-
-                  <div className="flex justify-between gap-2">
-
-                    <div>
-                        <Label>Quantity</Label>
-                        <Input
-                            value={data.quantity}
-                            onChange={(e) =>
-                                setData("quantity", e.target.value)
-                            }
-                        />
-                    </div>
-                    <div>
-                        <Label>Product</Label>
-                        <Input
-                            value={data.product}
-                            onChange={(e) =>
-                                setData("product", e.target.value)
-                            }
-                        />
-                    </div>
-
                     
-</div>
-
-
-                    {/* Status */}
-                    <div>
-                        <Label>Status</Label>
-                        <Select
-                            value={data.status}
-                            onValueChange={(value) =>
-                                setData("status", value)
-                            }
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select status" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="preparing">
-                                    Preparing
-                                </SelectItem>
-                                <SelectItem value="ready">Ready</SelectItem>
-                                <SelectItem value="picked_up">
-                                    Picked Up
-                                </SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-
                     {/* Memo */}
                     <div>
                         <Label>Memo</Label>

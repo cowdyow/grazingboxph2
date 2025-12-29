@@ -17,4 +17,9 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function lalamove()
+    {
+        return $this->hasOne(LalamoveRider::class, 'order_item_id');
+    }
 }

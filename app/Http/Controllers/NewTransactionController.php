@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Services\CustomerService;
 use App\Http\Services\TransactionService;
 use App\Models\Customer;
@@ -22,7 +23,7 @@ class NewTransactionController extends Controller
     }
 
 
-    public function __invoke(Request $request)
+    public function __invoke(StoreTransactionRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -42,6 +43,7 @@ class NewTransactionController extends Controller
                     'quantity' => $item['quantity'],
                     'delivery_date' => $item['delivery_date'],
                     'delivery_address' => $item['delivery_address'],
+                    'booking_type' => $item['booking_type'],
                     'memo' => $item['memo'] ?? null,
                     'status' => 'Pending',
                 ]);

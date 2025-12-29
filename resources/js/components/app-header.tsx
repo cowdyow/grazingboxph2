@@ -32,11 +32,12 @@ import { cn } from '@/lib/utils';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BikeIcon, BookOpen, Folder, GrapeIcon, LayoutGrid, Menu, Search } from 'lucide-react';
+import { BikeIcon, BookOpen, CalendarIcon, Folder, GrapeIcon, LayoutGrid, ListOrdered, Menu, Search } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 import products from '@/routes/products';
 import lalamove from '@/routes/lalamove';
+import transactions from '@/routes/transactions';
 
 const mainNavItems: NavItem[] = [
     {
@@ -44,16 +45,22 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
+   
+     {
+        title: 'Monthly Transaction',
+        href: transactions.index(),
+        icon: ListOrdered,
+    },
+    {
+        title: 'Daily Orders',
+        href: lalamove.index(),
+        icon: CalendarIcon,
+    },
     {
         title: 'Products',
         href: products.index(),
         icon: GrapeIcon,
     },
-    {
-        title: 'Lalamove',
-        href: lalamove.index(),
-        icon: BikeIcon,
-    }
 ];
 
 const rightNavItems: NavItem[] = [
@@ -204,7 +211,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                     </div>
 
                     <div className="ml-auto flex items-center space-x-2">
-                        <div className="relative flex items-center space-x-1">
+                        {/* <div className="relative flex items-center space-x-1">
                             <Button
                                 variant="ghost"
                                 size="icon"
@@ -249,7 +256,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                     </TooltipProvider>
                                 ))}
                             </div>
-                        </div>
+                        </div> */}
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button

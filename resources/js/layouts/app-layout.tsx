@@ -36,7 +36,7 @@ export default function AppLayout({ children, breadcrumbs, ...props }: AppLayout
     return (
         <>
             <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
-                <div className="">{children}</div>
+                <div className="py-4">{children}</div>
             </AppLayoutTemplate>
 
             

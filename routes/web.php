@@ -29,6 +29,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/new-transaction', NewTransactionController::class)
         ->name('transaction.orders.store');
 
+    Route::put('/lalamove/{orderItem}/status', [LalamoveRiderController::class, 'updateStatus'])->name('lalamove.updateStatus');
+
+
 
 
     require __DIR__ . '/api.php';

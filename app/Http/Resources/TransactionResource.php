@@ -20,8 +20,10 @@ class TransactionResource extends JsonResource
             'order_number' => $this->order_number,
             'status' => $this->status,
             'total_amount' => $this->total_amount,
+            'created_at' => $this->created_at->format('M d, Y'),
 
             'customer' => new CustomerResource($this->whenLoaded('customer')),
+            'order_items' => OrderItemResource::collection($this->whenLoaded('orderItems')),
         ];
     }
 }

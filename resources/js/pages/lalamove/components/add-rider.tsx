@@ -18,22 +18,16 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { useForm } from "@inertiajs/react";
-import { PlusIcon } from "lucide-react";
+import { BikeIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
 import lalamove from "@/routes/lalamove";
 
-export default function AddLalamoveRider({  }) {
+export default function AddLalamoveRider({ orderId }) {
     const { data, setData, post, processing, errors } = useForm({
-        order_item_id: "",
-        customer_name: "",
+        order_item_id: orderId,
         rider_name: "",
         contact_no: "",
-        status: "not_yet_started",
-        booking_type: "",
-        delivery_time: "",
         memo: "",
-        product: "",
-        quantity: "",
     });
 
     const [isOpen, setIsOpen] = useState(false);
@@ -51,7 +45,7 @@ export default function AddLalamoveRider({  }) {
         <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
             <AlertDialogTrigger asChild>
                 <Button size="sm">
-                    <PlusIcon className="mr-1 h-4 w-4" />
+                    <BikeIcon className="mr-1 h-4 w-4" />
                     Add Rider
                 </Button>
             </AlertDialogTrigger>
@@ -62,21 +56,6 @@ export default function AddLalamoveRider({  }) {
                 </AlertDialogHeader>
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    {/* Customer Name */}
-                    <div>
-                        <Label>Customer Name</Label>
-                        <Input
-                            value={data.customer_name}
-                            onChange={(e) =>
-                                setData("customer_name", e.target.value)
-                            }
-                        />
-                        {errors.customer_name && (
-                            <p className="text-sm text-red-500">
-                                {errors.customer_name}
-                            </p>
-                        )}
-                    </div>
 
                     {/* Rider Name */}
                     <div>
@@ -99,106 +78,6 @@ export default function AddLalamoveRider({  }) {
                             }
                         />
                     </div>
-
-                    {/* Booking Type */}
-                    <div>
-                        <Label>Booking Type</Label>
-                        <Select
-                            value={data.booking_type}
-                            onValueChange={(value) =>
-                                setData("booking_type", value)
-                            }
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select booking type" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="pickup">
-                                    Pick Up
-                                </SelectItem>
-                                <SelectItem value="customer_booked">
-                                    Customer Will Book
-                                </SelectItem>
-                                <SelectItem value="staff_booked">
-                                    We Will Book
-                                </SelectItem>
-                            </SelectContent>
-                        </Select>
-
-                        {errors.booking_type && (
-                            <p className="text-sm text-red-500">
-                                {errors.booking_type}
-                            </p>
-                        )}
-                    </div>
-
-                    {/* Delivery Time */}
-                        <div>
-                            <Label>Delivery Time</Label>
-                            <Input
-                                placeholder="e.g. 2PM, Anytime"
-                                value={data.delivery_time}
-                                onChange={(e) =>
-                                    setData("delivery_time", e.target.value)
-                                }
-                            />
-
-                            {errors.delivery_time && (
-                                <p className="text-sm text-red-500">
-                                    {errors.delivery_time}
-                                </p>
-                            )}
-                        </div>
-                    <div className="flex justify-between gap-2">
-
-                    <div>
-                        <Label>Quantity</Label>
-                        <Input
-                            value={data.quantity}
-                            onChange={(e) =>
-                                setData("quantity", e.target.value)
-                            }
-                        />
-                    </div>
-                    <div>
-                        <Label>Product</Label>
-                        <Input
-                            value={data.product}
-                            onChange={(e) =>
-                                setData("product", e.target.value)
-                            }
-                        />
-                    </div>
-
-                    
-</div>
-                    {/* Status */}
-                   <div>
-    <Label>Status</Label>
-    <Select
-        value={data.status}
-        onValueChange={(value) =>
-            setData("status", value)
-        }
-    >
-        <SelectTrigger>
-            <SelectValue placeholder="Select status" />
-        </SelectTrigger>
-        <SelectContent>
-            <SelectItem value="not_yet_started">
-                Not Yet Started
-            </SelectItem>
-            <SelectItem value="preparing">
-                Preparing
-            </SelectItem>
-            <SelectItem value="ready">Ready</SelectItem>
-            <SelectItem value="picked_up">
-                Picked Up
-            </SelectItem>
-        </SelectContent>
-    </Select>
-</div>
-
 
                     {/* Memo */}
                     <div>

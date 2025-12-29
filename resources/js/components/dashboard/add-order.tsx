@@ -24,18 +24,12 @@ interface OrderItem {
     product_id: number | null;
     quantity: number;
     delivery_date: string;
+    booking_type: "pickup" | "customer_booked" | "staff_booked" | "";
     delivery_address: string;
     memo?: string;
 }
-interface OrderItem {
-    product_id: number | null;
-    quantity: number;
-    delivery_date: string;
-    address: string;
-    memo?: string;
-}
 
-interface FormData {
+interface OrderFormData {
     name: string;
     username: string;
     address: string;
@@ -46,14 +40,21 @@ interface FormData {
 
 
 export default function AddOrder() {
-    const { data, setData, post, processing, errors, reset } = useForm<FormData>({
+    const { data, setData, post, processing, errors, reset } = useForm<OrderFormData>({
         name: "",
         username: "",
         address: "",
         phone: "",
         source: "",
         items: [
-        { product_id: null, quantity: 1, delivery_date: "", delivery_address: "", memo: "" },
+            {
+            product_id: null,
+            quantity: 1,
+            delivery_date: "",
+            booking_type: "",
+            delivery_address: "",
+            memo: "",
+            },
         ],
     });
 
@@ -130,14 +131,14 @@ export default function AddOrder() {
             </Button>
         </AlertDialogTrigger>
 
-        <AlertDialogContent className="sm:max-w-[80vw] max-h-[90vh] overflow-y-auto">
+        <AlertDialogContent className="sm:max-w-[60vw] max-h-[90vh] overflow-y-auto">
             <AlertDialogHeader>
             <AlertDialogTitle>Add New Order</AlertDialogTitle>
             </AlertDialogHeader>
 
             <form onSubmit={handleSubmit} className="space-y-4">
             {/* CUSTOMER DETAILS */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                     <Label>Customer Username</Label>
                     <Combobox type="single" onValueChange={handleSelect}>
@@ -160,7 +161,7 @@ export default function AddOrder() {
                         )}
                         </ComboboxContent>
                     </Combobox>
-                    {errors.username && <p className="text-red-500">{errors.username}</p>}
+                    {errors.customer_id && <p className="text-red-500 text-sm">{errors.customer_id}</p>}
                 </div>
 
                 <div>
@@ -170,7 +171,7 @@ export default function AddOrder() {
                         onChange={(e) => setData("name", e.target.value)}
                         placeholder="Enter customer name"
                     />
-                    {errors.name && <p className="text-red-500">{errors.name}</p>}
+                    {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
                 </div>
 
                 <div>
@@ -180,7 +181,7 @@ export default function AddOrder() {
                         onChange={(e) => setData("address", e.target.value)}
                         placeholder="Enter address"
                     />
-                    {errors.address && <p className="text-red-500">{errors.address}</p>}
+                    {errors.address && <p className="text-red-500 text-sm">{errors.address}</p>}
                 </div>
 
                 <div>
@@ -190,7 +191,7 @@ export default function AddOrder() {
                         onChange={(e) => setData("phone", e.target.value)}
                         placeholder="Enter phone"
                     />
-                    {errors.phone && <p className="text-red-500">{errors.phone}</p>}
+                    {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
                 </div>
                 <div>
                     <Label>Source</Label>
@@ -199,83 +200,96 @@ export default function AddOrder() {
                         onChange={(e) => setData("source", e.target.value)}
                         placeholder="Select Source"
                     />
-                    {errors.source && <p className="text-red-500">{errors.source}</p>}
+                    {errors.source && <p className="text-red-500 text-sm">{errors.source}</p>}
                 </div>
             </div>
 
             <div className="mt-6">
                 <div className="flex items-center justify-between">
-                <h3 className="font-semibold text-lg">Order Items</h3>
-                <Button type="button" variant="secondary" onClick={addItem}>
-                    <PlusIcon className="mr-2" /> Add Item
-                </Button>
+                    <h3 className="font-semibold text-lg">Order Items</h3>
+                    <Button type="button" variant="secondary" onClick={addItem}>
+                        <PlusIcon className="mr-2" /> Add Item
+                    </Button>
                 </div>
 
                 {data.items.map((item, index) => (
                     <div key={index} className="border rounded p-4 mt-4 space-y-3 relative">
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                        <div>
-                            <Label>Product</Label>
-                            <Select
-                            value={item.product_id?.toString() ?? ""}
-                            onValueChange={(val) =>
-                                updateItem(index, "product_id", Number(val))
-                            }
-                            >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select a product" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {products.map((product) => (
-                                <SelectItem
-                                    key={product.id}
-                                    value={product.id.toString()}
+                        {/* Grid: 1 column on mobile, 2 columns on sm+ */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {/* Product */}
+                            <div>
+                                <Label>Product</Label>
+                                <Select
+                                value={item.product_id?.toString() ?? ""}
+                                onValueChange={(val) => updateItem(index, "product_id", Number(val))}
                                 >
-                                    {product.name} - ₱{product.price}
-                                </SelectItem>
-                                ))}
-                            </SelectContent>
-                            </Select>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select a product" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {products.map((product) => (
+                                    <SelectItem key={product.id} value={product.id.toString()}>
+                                        {product.name}
+                                    </SelectItem>
+                                    ))}
+                                </SelectContent>
+                                </Select>
+                                {errors[`items.${index}.product_id`] && (
+                                <p className="text-red-500 text-sm">{errors[`items.${index}.product_id`]}</p>
+                                )}
+                            </div>
+
+                            {/* Quantity */}
+                            <div>
+                                <Label>Quantity</Label>
+                                <Input
+                                type="number"
+                                min={1}
+                                value={item.quantity}
+                                onChange={(e) => updateItem(index, "quantity", Number(e.target.value))}
+                                />
+                                {errors[`items.${index}.quantity`] && (
+                                <p className="text-red-500 text-sm">{errors[`items.${index}.quantity`]}</p>
+                                )}
+                            </div>
                         </div>
 
-                        <div>
-                            <Label>Quantity</Label>
-                            <Input
-                            type="number"
-                            min={1}
-                            value={item.quantity}
-                            onChange={(e) =>
-                                updateItem(index, "quantity", Number(e.target.value))
-                            }
-                            />
-                        </div>
-
-                        <div>
+                        {/* Delivery Date */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="mt-4">
                             <Label>Delivery Date</Label>
                             <Input
                                 type="datetime-local"
+                                step={3600}
                                 value={item.delivery_date}
-                                onChange={(e) =>
-                                    updateItem(index, "delivery_date", e.target.value)
+                                onChange={(e) => {
+                                const value = e.target.value;
+                                if (value) {
+                                    const [date, time] = value.split("T");
+                                    const hour = time.split(":")[0];
+                                    updateItem(index, "delivery_date", `${date}T${hour}:00`);
                                 }
+                                }}
                             />
-                        </div>
+                            {errors[`items.${index}.delivery_date`] && (
+                                <p className="text-red-500 text-sm">{errors[`items.${index}.delivery_date`]}</p>
+                            )}
+                            </div>
 
-
-                        <div className="col-span-2 md:col-span-3">
-                            <Label>Delivery Address</Label>
-
-                            <Input
-                                value={item.delivery_address}
-                                onChange={(e) =>
-                                    updateItem(index, "delivery_address", e.target.value)
-                                }
-                                placeholder="Enter delivery address"
-                                disabled={copyAddress[index] === true}
-                            />
-
-                            <div className="flex items-center gap-2 mt-2">
-                                <Checkbox
+                            {/* Delivery Address */}
+                            <div className="mt-4">
+                                <Label>Delivery Address</Label>
+                                <Input
+                                    value={item.delivery_address}
+                                    onChange={(e) => updateItem(index, "delivery_address", e.target.value)}
+                                    placeholder="Enter delivery address"
+                                    disabled={copyAddress[index] === true}
+                                />
+                                {errors[`items.${index}.delivery_address`] && (
+                                    <p className="text-red-500 text-sm">{errors[`items.${index}.delivery_address`]}</p>
+                                )}
+                                <div className="flex items-center gap-2 mt-2">
+                                    <Checkbox
                                     checked={copyAddress[index] === true}
                                     onCheckedChange={(checked) => {
                                         const temp = [...copyAddress];
@@ -283,29 +297,48 @@ export default function AddOrder() {
                                         setCopyAddress(temp);
 
                                         if (checked) {
-                                            updateItem(index, "delivery_address", data.address);
+                                        updateItem(index, "delivery_address", data.address);
                                         } else {
-                                            updateItem(index, "delivery_address", "");
+                                        updateItem(index, "delivery_address", "");
                                         }
                                     }}
-                                />
-                                <Label className="text-sm">
-                                    Same as customer address
-                                </Label>
+                                    />
+                                    <Label className="text-sm">Same as customer address</Label>
+                                </div>
                             </div>
                         </div>
+                        {/* Booking Type */}
+                        <div className="mt-4">
+                        <Label>Booking Type</Label>
+                        <Select
+                            value={item.booking_type ?? ""}
+                            onValueChange={(value) => updateItem(index, "booking_type", value)}
+                        >
+                            <SelectTrigger>
+                            <SelectValue placeholder="Select booking type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                            <SelectItem value="pickup">Pick Up</SelectItem>
+                            <SelectItem value="customer_booked">Customer Will Book</SelectItem>
+                            <SelectItem value="staff_booked">We Will Book</SelectItem>
+                            </SelectContent>
+                        </Select>
+                        {errors[`items.${index}.booking_type`] && (
+                            <p className="text-red-500 text-sm">{errors[`items.${index}.booking_type`]}</p>
+                        )}
+                        </div>
 
-
-                        <div className="col-span-2 md:col-span-3">
-                            <Label>Memo</Label>
-                            <Input
+                        {/* Memo */}
+                        <div className="mt-4">
+                        <Label>Memo</Label>
+                        <Input
                             value={item.memo || ""}
                             onChange={(e) => updateItem(index, "memo", e.target.value)}
                             placeholder="Optional memo"
-                            />
-                        </div>
+                        />
                         </div>
 
+                        {/* Remove Button */}
                         <Button
                         type="button"
                         variant="destructive"
@@ -317,6 +350,7 @@ export default function AddOrder() {
                         </Button>
                     </div>
                     ))}
+
                 </div>
 
             <AlertDialogFooter className="mt-4">

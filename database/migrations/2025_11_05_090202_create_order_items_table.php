@@ -16,10 +16,16 @@ return new class extends Migration
             $table->foreignId('transaction_id')->constrained('transactions')->onDelete('cascade');
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->integer('quantity');
+            $table->enum('booking_type', [
+                'pickup',
+                'customer_booked',
+                'staff_booked',
+            ])->nullable();
             $table->dateTime('delivery_date');
-            $table->string('delivery_address');
+            $table->string('delivery_address')->nullable();
             $table->string('memo')->nullable()->default(null);
-            $table->enum('status', ['Pending', 'In-Progress', 'Complete'])->default('Pending');
+            $table->enum('status', ['pending', 'in-progress', 'ready', 'completed'])->default('Pending');
+            $table->timestamp('picked_up_at')->nullable();
             $table->timestamps();
         });
     }

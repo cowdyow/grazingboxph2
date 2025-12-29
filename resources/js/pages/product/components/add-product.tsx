@@ -10,7 +10,7 @@ import { route } from 'ziggy-js';
 
 
 export default function AddProduct() {
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         description: '',
         price: '',
@@ -22,6 +22,7 @@ export default function AddProduct() {
         e.preventDefault();
         post(route('products.store'));
         setIsOpen(false);
+        reset();
     }
 
 
