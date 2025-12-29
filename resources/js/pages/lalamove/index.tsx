@@ -22,6 +22,7 @@ import { route } from "ziggy-js";
 import { OrderItemTypes } from "@/types/order_items";
 import transactions from "@/routes/transactions";
 import CustomerDetail from "./components/customer-detail";
+import { BookingTypeBadge } from "@/components/custom/booking-type-badge";
 
 type Props = {
 
@@ -132,7 +133,7 @@ const handleReset = () => {
                     className="w-auto mb-4"
                 />
 
-                <div className="grid grid-cols-6 gap-4 pb-4">
+                <div className="grid grid-cols-2 sm:grid-cols-6 gap-4 pb-4">
                     {productCounts.map((product) => {
                         const remaining = product.total_quantity - product.completed_quantity;
                         return (
@@ -151,7 +152,7 @@ const handleReset = () => {
                 </div>
 
                 <Card>
-                    <div className="flex justify-between items-center pb-4">
+                    <div className="flex sm:flex-row flex-col sm:justify-between  items-center sm:items-start pb-4 gap-4 sm:gap-0">
                         <CardTitle className="px-6 ">
                             <div className="inline-flex gap-2 text-lg font-bold">
                                 Orders for <p className="underline">{new Date(selectedDate).toLocaleDateString('en-US', {
@@ -180,12 +181,11 @@ const handleReset = () => {
                                     <TableHead>#</TableHead>
                                     <TableHead>Customer</TableHead>
                                     <TableHead>Order</TableHead>
-                                    <TableHead>Booking Type</TableHead>
                                     <TableHead>Delivery Time & Address</TableHead>
                                     <TableHead>Status</TableHead>
                                     <TableHead>Notes</TableHead>
                                     <TableHead>Lalamove</TableHead>
-                                    <TableHead>Lalamove Link</TableHead>
+                                    <TableHead>Link</TableHead>
                                     
                                     <TableHead />
                                 </TableRow>
@@ -195,31 +195,23 @@ const handleReset = () => {
                                 {orders.data.map((item, index) => (
                                     <TableRow key={index}>
                                         <TableCell>
+                                            <div className="flex flex-col gap-1">
+                                            <BookingTypeBadge type={item.booking_type} />
                                             <Link href={transactions.show(item.transaction_id).url}>
-                                            <div className="text-blue-500">{item.transaction.order_number}</div></Link></TableCell>
+                                            <div className="text-blue-500">{item.transaction.order_number}</div>
+                                            </Link>
+                                            </div>
+                                            </TableCell>
                                         <TableCell><CustomerDetail customer={item.transaction.customer}/></TableCell>
                                         <TableCell>{item.quantity} - {item.product_name}</TableCell>
-                                        
-                                        <TableCell>
-                                            {(() => {
-                                                const booking = bookingTypeMap[item.booking_type];
-
-                                                return booking ? (
-                                                    <Badge className={booking.className}>
-                                                        {booking.label}
-                                                    </Badge>
-                                                ) : (
-                                                    <Badge variant="secondary">N/A</Badge>
-                                                );
-                                            })()}
-                                        </TableCell>
-
                                         <TableCell>
                                             <div className="flex flex-col">
-                                            <div>{item.delivery_time}</div>
-                                            <div className="text-xs text-gray-400">{item.delivery_address}</div>
-                                            </div>
+                                                <div>{item.delivery_time}</div>
+                                                <div className="text-xs text-gray-400 max-w-[200px] whitespace-normal break-words">
+                                                {item.delivery_address}
+                                                </div>
 
+                                            </div>
                                         </TableCell>
                                         <TableCell>
                                             <select
@@ -248,7 +240,7 @@ const handleReset = () => {
                                         </TableCell>
 
 
-                                        <TableCell className="max-w-[300px] whitespace-normal break-words">
+                                        <TableCell className="max-w-[250px] whitespace-normal break-words">
                                             {item.memo}
                                         </TableCell>
 
