@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\OrderItemResource;
+use App\Http\Services\DailyOrderService;
 use App\Models\LalamoveRider;
 use App\Models\OrderItem;
 use App\Models\Transaction;
@@ -11,12 +12,17 @@ use Illuminate\Http\Request;
 
 class LalamoveRiderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $dailyOrderService;
+
+    public function __construct(DailyOrderService $dailyOrderService)
+    {
+        $this->dailyOrderService = $dailyOrderService;
+    }
     public function index(Request $request)
     {
         $filterDate = $request->date ? Carbon::parse($request->date) : Carbon::today();
+
+        $dailySales = $this->dailyOrderService->getDailySales($filterDate);
 
         $orders = OrderItem::whereDate('delivery_date', $filterDate)
             ->with(['transaction.customer', 'product', 'lalamove'])
@@ -46,6 +52,7 @@ class LalamoveRiderController extends Controller
             'orders' => OrderItemResource::collection($orders),
             'productCounts' => $productCounts,
             'date' => $filterDate,
+            'dailySales' => $dailySales,
         ]);
     }
 

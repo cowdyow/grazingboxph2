@@ -23,6 +23,7 @@ import { OrderItemTypes } from "@/types/order_items";
 import transactions from "@/routes/transactions";
 import CustomerDetail from "./components/customer-detail";
 import { BookingTypeBadge } from "@/components/custom/booking-type-badge";
+import { PhilippinePeso } from "lucide-react";
 
 type Props = {
 
@@ -36,6 +37,7 @@ type Props = {
         completed_quantity: string,
     }
     date: string;
+    dailySales: string;
 };
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -86,8 +88,7 @@ const bookingTypeMap: Record<
 };
 
 
-const LalamovePage: React.FC<Props> = ({ orders, productCounts, date }) => {
-const { props } = usePage();
+const LalamovePage: React.FC<Props> = ({ orders, productCounts, date, dailySales }) => {
 const [search, setSearch] = useState("");
 const [selectedDate, setSelectedDate] = useState<string>(date);
 
@@ -119,19 +120,26 @@ const handleReset = () => {
             <Head title="Lalamove Riders" />
             
             <div className="">
-                <Input
-                    type="date"
-                    value={selectedDate}
-                    onChange={(e) => {
-                        const date = e.target.value; // "YYYY-MM-DD"
-                        setSelectedDate(date);       // update state
-                        router.get(route("lalamove.index"), { date, search }, {
-                            preserveState: true,
-                            replace: true,
-                        });
-                    }}
-                    className="w-auto mb-4"
-                />
+                <div className="flex justify-between items-center">
+                    <Input
+                        type="date"
+                        value={selectedDate}
+                        onChange={(e) => {
+                            const date = e.target.value;
+                            setSelectedDate(date);       
+                            router.get(route("lalamove.index"), { date, search }, {
+                                preserveState: true,
+                                replace: true,
+                            });
+                        }}
+                        className="w-auto mb-4"
+                    />
+                    <div className="flex gap-1">
+                        <div>Sales for Today - </div>
+                        <p className="flex flex-row items-center"><PhilippinePeso size={15}/>{dailySales}</p>
+                    </div>
+       
+                </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-6 gap-4 pb-4">
                     {productCounts.map((product) => {
@@ -139,7 +147,7 @@ const handleReset = () => {
                         return (
                             <Card
                                 key={product.product_id}
-                                className={`p-4 ${remaining === 0 ? "bg-green-700 border-green-500" : ""}`}
+                                className={`p-4 ${remaining === 0 ? "bg-green-700 border-green-500" : "dark:bg-[#1E1F23]"}`}
                             >
                                 <div className="flex justify-between items-center">
                                     <h3 className="font-semibold text-lg">{product.product_name}</h3>
@@ -151,7 +159,7 @@ const handleReset = () => {
                     })}
                 </div>
 
-                <Card>
+                <Card className="dark:bg-[#222124]">
                     <div className="flex sm:flex-row flex-col sm:justify-between  items-center sm:items-start pb-4 gap-4 sm:gap-0">
                         <CardTitle className="px-6 ">
                             <div className="inline-flex gap-2 text-lg font-bold">

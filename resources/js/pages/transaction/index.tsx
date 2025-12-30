@@ -55,7 +55,7 @@ const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Transactions" />
             <div className="py-4 space-y-4">
-                <Card>
+                <Card className="dark:bg-[#222124]">
                     <CardHeader className="flex justify-between ">
                         <CardTitle>
                         Transactions for {new Date(month + "-01").toLocaleString('en-US', {
@@ -74,7 +74,7 @@ const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
                         </div>
                     </CardHeader>
 
-                    <CardContent className="p-0">
+                    <CardContent className="p-0 ">
                         <Table>
                         <TableHeader>
                             <TableRow>

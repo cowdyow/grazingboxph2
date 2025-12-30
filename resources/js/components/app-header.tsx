@@ -32,7 +32,7 @@ import { cn } from '@/lib/utils';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BikeIcon, BookOpen, CalendarIcon, Folder, GrapeIcon, LayoutGrid, ListOrdered, Menu, Search } from 'lucide-react';
+import { BikeIcon, BookOpen, CalendarIcon, ChartNoAxesColumnIcon, DollarSign, Folder, GitGraph, GrapeIcon, LayoutGrid, ListOrdered, Menu, Search } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 import products from '@/routes/products';
@@ -45,8 +45,7 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
-   
-     {
+    {
         title: 'Monthly Transaction',
         href: transactions.index(),
         icon: ListOrdered,
@@ -61,7 +60,22 @@ const mainNavItems: NavItem[] = [
         href: products.index(),
         icon: GrapeIcon,
     },
+    {
+        title: 'Sales',
+        href: '#',
+        icon: ChartNoAxesColumnIcon,
+        isActive: true,
+        badge: 'Coming Soon',
+    },
+    {
+        title: 'Expenses',
+        href: '#',
+        icon: DollarSign,
+        isActive: true,
+        badge: 'Coming Soon',
+    },
 ];
+
 
 const rightNavItems: NavItem[] = [
     /* {
@@ -76,8 +90,7 @@ const rightNavItems: NavItem[] = [
     }, */
 ];
 
-const activeItemStyles =
-    'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100';
+const activeItemStyles = 'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100';
 
 interface AppHeaderProps {
     breadcrumbs?: BreadcrumbItem[];
@@ -89,7 +102,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     const getInitials = useInitials();
     return (
         <>
-            <div className="border-b border-sidebar-border/80">
+            <div className="border-b border-sidebar-border/80 dark:bg-[#161618]">
                 <div className="mx-auto flex h-16 items-center px-4 md:max-w-7xl">
                     {/* Mobile Menu */}
                     <div className="lg:hidden">
@@ -172,37 +185,29 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <div className="ml-6 hidden h-full items-center space-x-6 lg:flex">
-                        <NavigationMenu className="flex h-full items-stretch">
-                            <NavigationMenuList className="flex h-full items-stretch space-x-2">
+                    <div className="ml-6 hidden h-full items-center space-x-6 lg:flex ">
+                        <NavigationMenu className="flex h-full items-stretch ">
+                            <NavigationMenuList className="flex h-full items-stretch space-x-2 ">
                                 {mainNavItems.map((item, index) => (
                                     <NavigationMenuItem
                                         key={index}
-                                        className="relative flex h-full items-center"
+                                        className="relative flex h-full items-center "
                                     >
                                         <Link
                                             href={item.href}
                                             className={cn(
+                                                'h-9 cursor-pointer px-3 flex items-center gap-2 bg-white dark:bg-[#161618]',
                                                 navigationMenuTriggerStyle(),
                                                 page.url ===
-                                                    (typeof item.href ===
-                                                    'string'
-                                                        ? item.href
-                                                        : item.href.url) &&
-                                                    activeItemStyles,
-                                                'h-9 cursor-pointer px-3',
+                                                (typeof item.href === 'string' ? item.href : item.href.url) &&
+                                                activeItemStyles
                                             )}
-                                        >
-                                            {item.icon && (
-                                                <Icon
-                                                    iconNode={item.icon}
-                                                    className="mr-2 h-4 w-4"
-                                                />
-                                            )}
+                                            >
+                                            {item.icon && <item.icon className="w-4 h-4" />}
                                             {item.title}
                                         </Link>
                                         {page.url === item.href && (
-                                            <div className="absolute bottom-0 left-0 h-0.5 w-full translate-y-px bg-black dark:bg-white"></div>
+                                            <div className="absolute bottom-0 left-0 h-0.5 w-full translate-y-px bg-black dark:bg-white "></div>
                                         )}
                                     </NavigationMenuItem>
                                 ))}

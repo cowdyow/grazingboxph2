@@ -30,7 +30,7 @@ const ProductsPage: React.FC<Props> = ({ products }) => {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Products" />
-            <Card>
+            <Card className="dark:bg-[#1E1F23]">
                 <CardHeader>
                     <div className="flex justify-between items-center">
                         <CardTitle>

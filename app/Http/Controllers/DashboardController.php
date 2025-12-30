@@ -16,22 +16,21 @@ class DashboardController extends Controller
 
     public function __invoke(Request $request)
     {
-        $currentMonth = Carbon::now()->month;
-        $currentYear = Carbon::now()->year;
-
-        // Get all order items with their transaction and product
+        // Fetch all order items for the calendar (no filtering)
         $orderItems = OrderItem::with(['product', 'transaction.customer'])
-            ->whereHas('transaction', function ($query) use ($currentMonth, $currentYear) {
-                $query->whereYear('created_at', $currentYear)
-                    ->whereMonth('created_at', $currentMonth);
-            })
             ->get();
 
-        // Dashboard counts for current month
+        // Calculate today's dashboard counts based on orderItems' delivery_date
+        $today = Carbon::today();
+
+        $todayOrderItems = OrderItem::with('product')
+            ->whereDate('delivery_date', $today)
+            ->get();
+
         $dashboardCount = [
-            'totalOrders' => $orderItems->pluck('transaction_id')->unique()->count(),
-            'totalBoxes' => $orderItems->sum('quantity'),
-            'products' => $orderItems
+            'totalOrders' => $todayOrderItems->pluck('transaction_id')->unique()->count(),
+            'totalBoxes' => $todayOrderItems->sum('quantity'),
+            'products' => $todayOrderItems
                 ->groupBy('product_id')
                 ->map(function ($items, $productId) {
                     return [
@@ -44,8 +43,8 @@ class DashboardController extends Controller
         ];
 
         return inertia('dashboard', [
-            'orderItems' => OrderItemResource::collection($orderItems),
-            'dashboardCount' => $dashboardCount,
+            'orderItems' => OrderItemResource::collection($orderItems), // for calendar
+            'dashboardCount' => $dashboardCount, // for today's stats
         ]);
     }
 }
