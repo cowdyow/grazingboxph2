@@ -79,7 +79,7 @@ const Show: React.FC<Props> = ({ transaction }) => {
                                     <EditOrderItem orderItem={item} />
                                     </div>
                                 </div>
-                                <div className="text-sm text-gray-300">
+                                <div className="text-sm text-gray-500">
                                     <p>
                                         <span className="font-medium">Quantity:</span> {item.quantity}
                                     </p>
