@@ -147,13 +147,13 @@ const handleReset = () => {
                         return (
                             <Card
                                 key={product.product_id}
-                                className={`p-4 ${remaining === 0 ? "bg-green-700 border-green-500" : "dark:bg-[#1E1F23]"}`}
+                                className={`p-4 ${remaining === 0 ? "bg-green-500 border-green-500" : "dark:bg-[#1E1F23]"}`}
                             >
                                 <div className="flex justify-between items-center">
                                     <h3 className="font-semibold text-lg">{product.product_name}</h3>
                                     <div className="text-lg font-bold">{product.completed_quantity} / {product.total_quantity}</div>
                                 </div>
-                                <div className="text-sm text-gray-300">REMAINING: {remaining}</div>
+                                <div className="text-sm dark:text-gray-200">REMAINING: {remaining}</div>
                             </Card>
                         );
                     })}
