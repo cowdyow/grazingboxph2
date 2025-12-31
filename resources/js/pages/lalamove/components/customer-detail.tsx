@@ -21,7 +21,7 @@ export default function CustomerDetail({ customer }: Props) {
         {/* Trigger: customer name */}
         <AlertDialogTrigger asChild>
             <Button variant="link" className="p-0 text-blue-500">
-            {customer.username}
+            {customer.username} / {customer.name}
             </Button>
         </AlertDialogTrigger>
 
