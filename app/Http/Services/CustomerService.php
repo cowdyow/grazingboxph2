@@ -15,7 +15,7 @@ class CustomerService
 
         if ($customer == null) {
             $customer = Customer::create([
-                'name' => $request->name,
+                'name' => $request->name ?? $request->username,
                 'username' => $request->username,
                 'address' => $request->address,
                 'phone' => $request->phone,
