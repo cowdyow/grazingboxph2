@@ -5,6 +5,7 @@ use App\Http\Controllers\LalamoveRiderController;
 use App\Http\Controllers\NewTransactionController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SalesController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,6 +25,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('transactions', TransactionController::class);
 
     Route::resource('transactions/orders', OrderItemController::class)->shallow();
+
+    Route::resource('sales', SalesController::class);
 
 
     Route::post('/new-transaction', NewTransactionController::class)

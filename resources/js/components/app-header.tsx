@@ -38,6 +38,7 @@ import AppLogoIcon from './app-logo-icon';
 import products from '@/routes/products';
 import lalamove from '@/routes/lalamove';
 import transactions from '@/routes/transactions';
+import sales from '@/routes/sales';
 
 const mainNavItems: NavItem[] = [
     {
@@ -62,10 +63,9 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Sales',
-        href: '#',
+        href: sales.index(),
         icon: ChartNoAxesColumnIcon,
-        isActive: true,
-        badge: 'Coming Soon',
+
     },
     {
         title: 'Expenses',
