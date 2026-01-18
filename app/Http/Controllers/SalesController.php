@@ -15,7 +15,6 @@ class SalesController extends Controller
         $now = Carbon::now();
         $month = $request->query('month', now()->month);
         $year = $request->query('year', now()->year);
-        $monthName = $now->format('F');
 
         // Aggregate quantities per product per day
         $orderItems = OrderItem::join('products', 'order_items.product_id', '=', 'products.id')
@@ -56,7 +55,6 @@ class SalesController extends Controller
             'salesData' => $salesData,
             'amountData' => $amountData,
             'daysInMonth' => $now->daysInMonth,
-            'month' => $monthName,
             'selectedMonth' => $month,
             'selectedYear' => $year,
         ]);

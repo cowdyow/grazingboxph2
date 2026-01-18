@@ -18,14 +18,12 @@ type SalesProps = {
   salesData: Record<string, number[]>; 
   amountData: number[];                
   daysInMonth: number;
-  month: string;
 };
 
 const SalesPage: React.FC<SalesProps & { selectedMonth: number; selectedYear: number }> = ({
   salesData,
   amountData,
   daysInMonth,
-  month,
   selectedMonth,
   selectedYear,
 }) => {
@@ -63,7 +61,7 @@ const SalesPage: React.FC<SalesProps & { selectedMonth: number; selectedYear: nu
             </div>
             <Card className="dark:bg-[#222124]">
                 <CardHeader>
-                    <CardTitle>Orders for the month of {month}</CardTitle>
+                    <CardTitle>Total Orders</CardTitle>
                 </CardHeader>
 
                 <CardContent className="p-0 overflow-x-auto">
@@ -95,30 +93,34 @@ const SalesPage: React.FC<SalesProps & { selectedMonth: number; selectedYear: nu
 
             <Card className="dark:bg-[#222124]">
                 <CardHeader>
-                    <CardTitle>Total Sales for the month of {month}</CardTitle>
+                    <CardTitle>Total Sales</CardTitle>
                 </CardHeader>
 
                 <CardContent className="p-0 overflow-x-auto">
                     <Table>
-                    <TableHeader>
-                        <TableRow>
-                        <TableHead>Date</TableHead>
-                        {Array.from({ length: daysInMonth }, (_, i) => (
-                            <TableHead key={i}  className="text-center">{i + 1}</TableHead>
-                        ))}
-                        </TableRow>
-                    </TableHeader>
+                        <TableHeader>
+                            <TableRow>
+                            <TableHead>Date</TableHead>
+                            {Array.from({ length: daysInMonth }, (_, i) => (
+                                <TableHead key={i} className="text-center">{i + 1}</TableHead>
+                            ))}
+                            <TableHead className="text-center">Total</TableHead> {/* Added total header */}
+                            </TableRow>
+                        </TableHeader>
 
-                    <TableBody>
-                        <TableRow>
-                        <TableCell>PHP</TableCell>
-                        {Object.values(amountData).map((amt, index) => (
-                            <TableCell key={index} className="text-center">
-                            {amt === 0 ? "-" : amt.toFixed(2)}
+                        <TableBody>
+                            <TableRow>
+                            <TableCell>PHP</TableCell>
+                            {Object.values(amountData).map((amt, index) => (
+                                <TableCell key={index} className="text-center">
+                                {amt === 0 ? "-" : amt.toFixed(2)}
+                                </TableCell>
+                            ))}
+                            <TableCell className="text-center">
+                                {Object.values(amountData).reduce((sum, amt) => sum + amt, 0).toFixed(2)}
                             </TableCell>
-                        ))}
-                        </TableRow>
-                    </TableBody>
+                            </TableRow>
+                        </TableBody>
                     </Table>
                 </CardContent>
             </Card>
