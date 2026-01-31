@@ -9,11 +9,6 @@
     "icons": [
         {
             "src": "image/newlogo.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "image/newlogo.png",
             "sizes": "512x512",
             "type": "image/png"
         }
