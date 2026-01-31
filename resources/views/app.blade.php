@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        @PwaHead
 
         @routes
         {{-- Inline script to detect system dark mode preference and apply it immediately --}}
@@ -47,5 +47,6 @@
     </head>
     <body class="font-sans antialiased">
         @inertia
+        @RegisterServiceWorkerScript
     </body>
 </html>

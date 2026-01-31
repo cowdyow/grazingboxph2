@@ -45,13 +45,13 @@ export default function AddOrder() {
         username: "",
         address: "",
         phone: "",
-        source: "",
+        source: "Facebook",
         items: [
             {
             product_id: null,
             quantity: 1,
             delivery_date: "",
-            booking_type: "",
+            booking_type: "staff_booked",
             delivery_address: "",
             memo: "",
             },
@@ -165,7 +165,7 @@ export default function AddOrder() {
                 </div>
 
                 <div>
-                    <Label required>Name</Label>
+                    <Label>Name</Label>
                     <Input
                         value={data.name}
                         onChange={(e) => setData("name", e.target.value)}

@@ -1,0 +1,16 @@
+{
+    "name": "GrazingBoxPH",
+    "short_name": "GBPH",
+    "background_color": "#a3786b",
+    "display": "fullscreen",
+    "description": "Grazing Box PH inventory and tracking system created by yours truly.",
+    "theme_color": "#dbb1a5",
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "image/newlogo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
