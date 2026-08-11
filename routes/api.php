@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AIAssistantController;
 use App\Http\Controllers\API\SearchCustomerController;
 use App\Http\Controllers\ProductController;
 use App\Models\Customer;
@@ -20,6 +21,11 @@ Route::name('api.')->group(function () {
         $customer = Customer::get();
         return $customer;
     });
+
+    Route::post('ai/chat', [
+        AIAssistantController::class,
+        'chat',
+    ]);
 });
 
 require __DIR__ . '/settings.php';

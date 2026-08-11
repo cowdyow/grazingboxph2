@@ -66,9 +66,9 @@ export default function Dashboard({ orderItems, dashboardCount }: Props) {
                             day: "numeric",
                         })}
                     </div>
-                    <div className='text-sm text-gray-500'>
+                    {/* <div className='text-sm text-gray-500'>
                         I love you keep on going! :) -coj
-                    </div>
+                    </div> */}
                 </div>
                 <AddOrder />
             </div>

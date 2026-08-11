@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AIAssistantController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LalamoveRiderController;
 use App\Http\Controllers\NewTransactionController;
@@ -33,11 +34,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('transaction.orders.store');
 
     Route::put('/lalamove/{orderItem}/status', [LalamoveRiderController::class, 'updateStatus'])->name('lalamove.updateStatus');
-
-
-
-
-    require __DIR__ . '/api.php';
+   
 });
 
 require __DIR__ . '/settings.php';
